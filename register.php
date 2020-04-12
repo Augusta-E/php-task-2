@@ -1,6 +1,10 @@
-<?php 
-session_start();
-include_once("lib/header.php");
+<?php include_once("lib/header.php");
+
+if(isset($_SESSION["loggedin"]) && !empty($_SESSION["loggedin"])){
+//redirect to dash board
+header("Location:dashboard.php");
+}
+
  ?>
     <h3>Register</h3>
 

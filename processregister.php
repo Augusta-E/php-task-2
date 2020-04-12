@@ -1,8 +1,6 @@
 <?php
 session_start();
-
 //collecting data
-
 $errorCount = 0;
 
 //verifying the data/validation
@@ -22,9 +20,17 @@ $_SESSION['designation']=$designation;
 $_SESSION['department']=$department;
 
 if($errorCount>0){
-    $_SESSION["error"] = "You have " ." "  . $errorCount . "". " errors in your form submission";
-    header("Location:register.php");
+    $session_error = "You have "  . $errorCount . " error";
+    if($errorCount >1){
+        $session_error .= "s";
+    }
+  
+      $session_error .=  " in your form submission";
+       
+       $_SESSION["error"] =  $session_error;   
+        header("Location:register.php");
 }
+   
 else{
     $allusers=scandir("db/users/");
     $countAllusers = count($allusers);
@@ -40,21 +46,19 @@ else{
         'designation'=>$designation,
         'department'=>$department,
     ];
-};
+
 for ($counter=0; $counter<$countAllusers; $counter++){
 $currentuser=$allusers[$counter];
  if ($currentuser == $email . ".json"){
-    file_put_contents("db/users/" . $email. ".json", json_encode ($userobject));
     $_SESSION["error"] = "Registration failed, user already exist";
     header("Location:register.php");
+  } 
  }
-}
+
     file_put_contents("db/users/" . $email. ".json", json_encode ($userobject));
-    $_SESSION["message"] = "Registration successful, you can now login" . " " . $first_name;
+    $_SESSION["message"] = "Registration successful, you can now login " . $first_name;
     header("Location:login.php");
-
-
-//print_r($_POST);
+}
 
 
 

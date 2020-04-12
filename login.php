@@ -1,8 +1,14 @@
-<?php 
-session_start();
-include_once("lib/header.php");
+<?php include_once("lib/header.php");
+
+if(isset($_SESSION["loggedin"]) && !empty($_SESSION["loggedin"])){
+  //redirect to dash board
+  header("Location:dashboard.php");
+
+  }
  ?>  
- <p>
+      <h3 style='color:green'>Welcome! please Login to your page</h3>
+
+<p>
     <?php
     if(isset($_SESSION["message"]) && !empty($_SESSION["message"])){
     echo "<span style='color:Blue'>" . $_SESSION["message"] . "</span>";
@@ -10,12 +16,16 @@ include_once("lib/header.php");
     session_destroy(); 
   }
     ?>
-    </p> 
-    
-    <h3 style='color:green'>Welcome! please Login to your page</h3>
-  
-  
+</p> 
     <form method="POST" action = "processlogin.php">
+<p>
+    <?php
+    if(isset($_SESSION["error"]) && !empty($_SESSION["error"])){
+    echo "<span style='color:Blue'>" . $_SESSION["error"] . "</span>";
+    session_destroy(); 
+  }
+    ?>
+</p> 
   <p>
 <label>Email</label><br/>
 <input
